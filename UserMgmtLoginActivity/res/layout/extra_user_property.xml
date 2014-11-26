@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/com_kakao_profile_property_label"
+        android:text="@string/name" />
+
+    <EditText
+        android:id="@+id/name"
+        android:hint="@string/name_hint"
+        style="@style/com_kakao_profile_property_value" />
+
+    <TextView
+        style="@style/com_kakao_profile_property_label"
+        android:text="@string/studnet_number" />
+
+    <EditText
+        android:id="@+id/student_number"
+        android:hint="21000200"
+        style="@style/com_kakao_profile_property_value" />
+
+    <TextView
+        style="@style/com_kakao_profile_property_label"
+        android:text="@string/phone" />
+
+    <EditText
+        android:id="@+id/phone"
+        android:hint="01083344555"
+        style="@style/com_kakao_profile_property_value" />
+    
+    <TextView
+        style="@style/com_kakao_profile_property_label"
+        android:text="@string/haver_car" />
+
+    <Spinner
+        android:id="@+id/have_car"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/com_kakao_profile_property_margin"
+        android:layout_marginRight="@dimen/com_kakao_profile_property_margin"
+        android:layout_marginTop="@dimen/com_kakao_profile_property_margin"
+        android:entries="@array/car_types"
+        android:paddingLeft="@dimen/com_kakao_padding"
+        android:textSize="@dimen/com_kakao_profile_property_text"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android1:id="@+id/radioGroup1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content" >
+    </RadioGroup>
+
+     <TextView
+     style="@style/com_kakao_profile_property_label"
+     android:text="@string/car_number" />
+
+    <EditText
+        android:id="@+id/car_number"
+        android:hint="@string/car_number_hint"
+        style="@style/com_kakao_profile_property_value" />
+    
+</LinearLayout>
+</ScrollView>

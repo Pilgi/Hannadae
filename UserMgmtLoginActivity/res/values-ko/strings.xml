@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">한동 나좀 데려가</string>
+    <string name="signup_button">회원가입</string>
+    <string name="me_button">Me</string>
+    <string name="update_profile_button">Update</string>
+    
+    <string name="signerror">빈칸을 채워주세요!</string>
+
+    <string name="name">이름을 입력하세요.</string>
+        <string name="name_hint">김필기</string>
+    <string name="studnet_number">학번을 입력하세요.</string>
+    <string name="phone">휴대폰 번호를 입력하세요.</string>
+    <string name="haver_car">차를 가지고 계십니까?</string>
+    <string name="car_number">차 번호를 입력하세요.</string>
+    <string name="car_number_hint">4555 (없으면 안쓰셔도 됩니다.)</string>
+
+    <string-array name="car_types">
+        <item>없음</item>
+        <item>있음</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HanNaDae</string>
+    <string name="signup_button">Signup</string>
+    <string name="me_button">Me</string>
+    <string name="update_profile_button">Update</string>
+    
+    
+    <string name="signerror">YOU SHOULD FILL BLANKS</string>
+    
+
+    <string name="name">Write Your Name</string>
+        <string name="name_hint">Kim PilGi</string>
+    <string name="studnet_number">Write Your Studnet number</string>
+    <string name="phone">Write Your Phone number</string>
+    <string name="haver_car">Do you have a Car?</string>
+    <string name="car_number">Write Your Car number</string>
+    <string name="car_number_hint">4555 (IF NOT YOU CAN PASS OUT)</string>
+
+    <string-array name="car_types">
+        <item>NO</item>
+        <item>YES</item>
+    </string-array>
+
+</resources>
