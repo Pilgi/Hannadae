@@ -19,14 +19,19 @@ package com.kakao.sample.usermgmt;
 
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.kakao.APIErrorResult;
 import com.kakao.LogoutResponseCallback;
 import com.kakao.MeResponseCallback;
@@ -40,11 +45,20 @@ import com.kakao.widget.ProfileLayout;
 /**
  * 가입된 사용자가 보게되는 메인 페이지로 사용자 정보 불러오기/update, 로그아웃, 탈퇴 기능을 테스트 한다.
  */
-public class UsermgmtMainActivity extends Activity {
+public class UsermgmtMainActivity extends FragmentActivity implements OnClickListener{
+	
     private UserProfile userProfile;
-    private ProfileLayout profileLayout;
     private ExtraUserPropertyLayout extraUserPropertyLayout;
 
+	final String TAG = "MainActivity";
+
+	int mCurrentFragmentIndex;
+	public final static int FRAGMENT_APPLY = 0;
+	public final static int FRAGMENT_RECEIVE = 1;
+	public final static int FRAGMENT_SETTING = 2;
+	public final static int FRAGMENT_LIST = 3;
+	public final static int FRAGMENT_JOIN = 4;
+	
     /**
      * 로그인 또는 가입창에서 넘긴 유저 정보가 있다면 저장한다.
      * @param savedInstanceState 기존 session 정보가 저장된 객체
@@ -52,7 +66,53 @@ public class UsermgmtMainActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeView();
+		setContentView(R.layout.activity_main);
+        
+		Button bt_oneFragment = (Button) findViewById(R.id.bt_oneFragment);
+		bt_oneFragment.setOnClickListener(this);
+		Button bt_twoFragment = (Button) findViewById(R.id.bt_twoFragment);
+		bt_twoFragment.setOnClickListener(this);
+		Button bt_threeFragment = (Button) findViewById(R.id.bt_threeFragment);
+		bt_threeFragment.setOnClickListener(this);
+		Button bt_fourFragment = (Button) findViewById(R.id.bt_fourFragment);
+		bt_fourFragment.setOnClickListener(this);
+		Button bt_fiveFragment = (Button) findViewById(R.id.bt_fiveFragment);
+		bt_fiveFragment.setOnClickListener(this);
+
+		mCurrentFragmentIndex = FRAGMENT_APPLY;
+		fragmentReplace(mCurrentFragmentIndex);
+		requestMe();
+    }
+    private void requestMe() {
+        UserManagement.requestMe(new MeResponseCallback() {
+            @Override
+            protected void onSuccess(final UserProfile userProfile) {
+                // 성공.
+                Log.w(TAG,  "성공");
+                if(userProfile!=null)
+                	Log.w(TAG,userProfile.toString());
+               String test = userProfile.getNickname();
+               Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected void onNotSignedUp() {
+                // 가입 페이지로 이동
+                redirectSignupActivity();
+            }
+
+            @Override
+            protected void onSessionClosedFailure(final APIErrorResult errorResult) {
+                // 다시 로그인 시도
+                redirectLoginActivity();
+            }
+
+            @Override
+            protected void onFailure(final APIErrorResult errorResult) {
+                // 실패
+                Toast.makeText(getApplicationContext(), "failed to update profile. msg = " + errorResult, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -60,10 +120,13 @@ public class UsermgmtMainActivity extends Activity {
         super.onResume();
         userProfile = UserProfile.loadFromCache();
         if(userProfile != null)
-            showProfile();
+        {
+        	//userProfile이 있으면 해야할 것ㄷ
+        }
     }
 
     private void redirectLoginActivity() {
+
         Intent intent = new Intent(this, UserMgmtLoginActivity.class);
         startActivity(intent);
         finish();
@@ -76,7 +139,7 @@ public class UsermgmtMainActivity extends Activity {
     }
 
     /**
-     * 사용자의 정보를 변경 저장하는 API를 호출한다.
+     * 사용자의 정보를 변경 저장하는 API를 호출한다.buttonMe
      */
     private void onClickUpdateProfile() {
         final Map<String, String> properties = extraUserPropertyLayout.getProperties();
@@ -89,7 +152,6 @@ public class UsermgmtMainActivity extends Activity {
                     userProfile.saveUserToCache();
                 Toast.makeText(getApplicationContext(), "succeeded to update user profile", Toast.LENGTH_SHORT).show();
                 Logger.getInstance().d("succeeded to update user profile" + userProfile);
-                showProfile();
             }
 
             @Override
@@ -160,80 +222,79 @@ public class UsermgmtMainActivity extends Activity {
     }
 
 
-    private void showProfile() {
-        if(profileLayout != null)
-            profileLayout.setUserProfile(userProfile);
-        if(extraUserPropertyLayout != null)
-            extraUserPropertyLayout.showProperties(userProfile.getProperties());
-    }
+	public void fragmentReplace(int reqNewFragmentIndex) {
 
-    private void initializeView() {
-        setContentView(R.layout.main);
-        initializeButtons();
-        initializeProfileView();
-    }
+		Fragment newFragment = null;
 
-    private void initializeButtons() {
-        final Button buttonMe = (Button) findViewById(R.id.buttonMe);
-        buttonMe.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                profileLayout.requestMe();
-            }
-        });
+		Log.d(TAG, "fragmentReplace " + reqNewFragmentIndex);
+		newFragment = getFragment(reqNewFragmentIndex);
 
-        final Button buttonUpdateProfile = (Button) findViewById(R.id.buttonUpdateProfile);
-        buttonUpdateProfile.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onClickUpdateProfile();
-            }
-        });
+		// replace fragment
+		final FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
 
-        final Button logoutButton = (Button) findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onClickLogout();
-            }
-        });
+		transaction.replace(R.id.ll_fragment, newFragment);
 
-        final Button unlinkButton = (Button) findViewById(R.id.unlink_button);
-        unlinkButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onClickUnlink();
-            }
-        });
-    }
+		// Commit the transaction
+		transaction.commit();
 
-    private void initializeProfileView() {
-        profileLayout = (ProfileLayout) findViewById(R.id.com_kakao_user_profile);
-        profileLayout.setMeResponseCallback(new MeResponseCallback() {
-            @Override
-            protected void onSuccess(final UserProfile userProfile) {
-                Toast.makeText(getApplicationContext(), "succeeded to get user profile", Toast.LENGTH_SHORT).show();
-                if (userProfile != null) {
-                    UsermgmtMainActivity.this.userProfile = userProfile;
-                    userProfile.saveUserToCache();
-                    showProfile();
-                }
-            }
+	}
 
-            @Override
-            protected void onNotSignedUp() {
-                redirectSignupActivity();
-            }
+	private Fragment getFragment(int idx) {
+		Fragment newFragment = null;
 
-            @Override
-            protected void onSessionClosedFailure(final APIErrorResult errorResult) {
-                redirectLoginActivity();
-            }
+		switch (idx) {
+		case FRAGMENT_APPLY:
+			newFragment = new apply();
+			break;
+		case FRAGMENT_RECEIVE:
+			newFragment = new receive();
+			break;
+		case FRAGMENT_SETTING:
+			newFragment = new ThreeFragment();
+			break;
+		case FRAGMENT_LIST:
+			newFragment = new list();
+			break;
+		case FRAGMENT_JOIN:
+			newFragment = new join();
+			break;
 
-            @Override
-            protected void onFailure(final APIErrorResult errorResult) {
-                String message = "failed to get user info. msg=" + errorResult;
-                Logger.getInstance().d(message);
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
+		default:
+			Log.d(TAG, "Unhandle case");
+			break;
+		}
 
-        extraUserPropertyLayout = (ExtraUserPropertyLayout) findViewById(R.id.extra_user_property);
-    }
+		return newFragment;
+	}
+
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+
+		case R.id.bt_fiveFragment:
+			mCurrentFragmentIndex = FRAGMENT_JOIN;
+			fragmentReplace(mCurrentFragmentIndex);
+			break;
+		case R.id.bt_fourFragment:
+			mCurrentFragmentIndex = FRAGMENT_LIST;
+			fragmentReplace(mCurrentFragmentIndex);
+			break;
+		case R.id.bt_oneFragment:
+			mCurrentFragmentIndex = FRAGMENT_APPLY;
+			fragmentReplace(mCurrentFragmentIndex);
+			break;
+		case R.id.bt_twoFragment:
+			mCurrentFragmentIndex = FRAGMENT_RECEIVE;
+			fragmentReplace(mCurrentFragmentIndex);
+			break;
+		case R.id.bt_threeFragment:
+			mCurrentFragmentIndex = FRAGMENT_SETTING;
+			fragmentReplace(mCurrentFragmentIndex);
+			break;
+
+		}
+
+	}
 }

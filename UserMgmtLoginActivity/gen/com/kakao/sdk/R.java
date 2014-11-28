@@ -140,7 +140,7 @@ public final class R {
 		public static final int holo_dark = 0x7f070005;
 		public static final int holo_light = 0x7f070006;
 		public static final int hybrid = 0x7f070004;
-		public static final int kakao_login_activity_progress_bar = 0x7f07001a;
+		public static final int kakao_login_activity_progress_bar = 0x7f070023;
 		public static final int match_parent = 0x7f07000c;
 		public static final int monochrome = 0x7f070013;
 		public static final int none = 0x7f070000;
@@ -157,8 +157,8 @@ public final class R {
 		public static final int google_play_services_version = 0x7f080000;
 	}
 	public static final class layout {
-		public static final int kakao_internal_login_activity = 0x7f030001;
-		public static final int kakao_login_layout = 0x7f030003;
+		public static final int kakao_internal_login_activity = 0x7f030004;
+		public static final int kakao_login_layout = 0x7f030006;
 	}
 	public static final class string {
 		public static final int accept = 0x7f050002;

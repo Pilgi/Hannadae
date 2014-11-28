@@ -22,11 +22,11 @@ import java.util.Map;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 /**
@@ -50,6 +50,7 @@ public class ExtraUserPropertyLayout extends FrameLayout {
 
     public ExtraUserPropertyLayout(Context context) {
         super(context);
+        Log.w("eerror","error in profile");
     }
 
     public ExtraUserPropertyLayout(Context context, AttributeSet attrs) {
@@ -113,7 +114,8 @@ public class ExtraUserPropertyLayout extends FrameLayout {
 
         final String have_carValue = properties.get(HAVECAR_KEY);
         if (have_carValue != null) {
-            ArrayAdapter<String> myAdap = (ArrayAdapter<String>) have_car.getAdapter(); //cast to an ArrayAdapter
+            ArrayAdapter<String> myAdap = (ArrayAdapter<String>) have_car.getAdapter(); 
+            //cast to an ArrayAdapter
             int spinnerPosition = myAdap.getPosition(have_carValue);
             have_car.setSelection(spinnerPosition);
         }
