@@ -128,9 +128,9 @@ public final class R {
 		public static final int kakaoaccount_icon = 0x7f020028;
 		public static final int kakaostory_icon = 0x7f020029;
 		public static final int kakaotalk_icon = 0x7f02002a;
-		public static final int powered_by_google_dark = 0x7f02002b;
-		public static final int powered_by_google_light = 0x7f02002c;
-		public static final int template_icon = 0x7f02002d;
+		public static final int powered_by_google_dark = 0x7f02002d;
+		public static final int powered_by_google_light = 0x7f02002e;
+		public static final int template_icon = 0x7f02002f;
 	}
 	public static final class id {
 		public static final int book_now = 0x7f070010;
@@ -138,21 +138,21 @@ public final class R {
 		public static final int buy_now = 0x7f07000f;
 		public static final int buy_with_google = 0x7f07000e;
 		public static final int classic = 0x7f070011;
-		public static final int com_kakao_login = 0x7f070024;
-		public static final int com_kakao_profile_image = 0x7f070025;
-		public static final int com_kakao_profile_nickname = 0x7f070027;
-		public static final int com_kakao_profile_userId = 0x7f070028;
+		public static final int com_kakao_login = 0x7f07002a;
+		public static final int com_kakao_profile_image = 0x7f07002b;
+		public static final int com_kakao_profile_nickname = 0x7f07002d;
+		public static final int com_kakao_profile_userId = 0x7f07002e;
 		public static final int grayscale = 0x7f070012;
 		public static final int holo_dark = 0x7f070005;
 		public static final int holo_light = 0x7f070006;
 		public static final int hybrid = 0x7f070004;
-		public static final int kakao_login_activity_progress_bar = 0x7f070023;
+		public static final int kakao_login_activity_progress_bar = 0x7f070029;
 		public static final int match_parent = 0x7f07000c;
 		public static final int monochrome = 0x7f070013;
 		public static final int none = 0x7f070000;
 		public static final int normal = 0x7f070001;
 		public static final int production = 0x7f070007;
-		public static final int profile_edit = 0x7f070026;
+		public static final int profile_edit = 0x7f07002c;
 		public static final int sandbox = 0x7f070008;
 		public static final int satellite = 0x7f070002;
 		public static final int selectionDetails = 0x7f07000b;

@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.kakao.APIErrorResult;
 import com.kakao.SignupResponseCallback;
 import com.kakao.UserManagement;

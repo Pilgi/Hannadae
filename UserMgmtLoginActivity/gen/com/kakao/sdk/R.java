@@ -127,8 +127,8 @@ public final class R {
 		public static final int kakaoaccount_icon = 0x7f020028;
 		public static final int kakaostory_icon = 0x7f020029;
 		public static final int kakaotalk_icon = 0x7f02002a;
-		public static final int powered_by_google_dark = 0x7f02002b;
-		public static final int powered_by_google_light = 0x7f02002c;
+		public static final int powered_by_google_dark = 0x7f02002d;
+		public static final int powered_by_google_light = 0x7f02002e;
 	}
 	public static final class id {
 		public static final int book_now = 0x7f070010;
@@ -140,7 +140,7 @@ public final class R {
 		public static final int holo_dark = 0x7f070005;
 		public static final int holo_light = 0x7f070006;
 		public static final int hybrid = 0x7f070004;
-		public static final int kakao_login_activity_progress_bar = 0x7f070023;
+		public static final int kakao_login_activity_progress_bar = 0x7f070029;
 		public static final int match_parent = 0x7f07000c;
 		public static final int monochrome = 0x7f070013;
 		public static final int none = 0x7f070000;

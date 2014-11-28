@@ -31,7 +31,7 @@ public class UserMgmtLoginActivity extends SampleLoginActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setBackground(getResources().getDrawable(R.drawable.usermgmt_sample_login_background));
+        setBackground(getResources().getDrawable(R.drawable.login_background));
     }
 
     /**
