@@ -21,5 +21,9 @@
         <item>NO</item>
         <item>YES</item>
     </string-array>
+    
+       <!-- 푸시용 내용 -->    
+    <string name="notification_title">Handong please take me!</string>
+    <string name="tokens">search token</string>
 
 </resources>

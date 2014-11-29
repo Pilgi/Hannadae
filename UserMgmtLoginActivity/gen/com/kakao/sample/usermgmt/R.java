@@ -352,8 +352,10 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f060006;
         public static final int common_signin_btn_light_text_focused=0x7f060007;
         public static final int common_signin_btn_light_text_pressed=0x7f060005;
-        public static final int common_signin_btn_text_dark=0x7f06001d;
-        public static final int common_signin_btn_text_light=0x7f06001e;
+        public static final int common_signin_btn_text_dark=0x7f06001f;
+        public static final int common_signin_btn_text_light=0x7f060020;
+        public static final int title_background=0x7f06001d;
+        public static final int title_text=0x7f06001e;
         public static final int wallet_bright_foreground_disabled_holo_light=0x7f06000f;
         /** 
          Wallet colors to support consistent Wallet fragment holo dark UI in client application
@@ -372,8 +374,8 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f060011;
         public static final int wallet_holo_blue_light=0x7f060015;
         public static final int wallet_link_text_light=0x7f060016;
-        public static final int wallet_primary_text_holo_light=0x7f06001f;
-        public static final int wallet_secondary_text_holo_dark=0x7f060020;
+        public static final int wallet_primary_text_holo_light=0x7f060021;
+        public static final int wallet_secondary_text_holo_dark=0x7f060022;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -430,63 +432,65 @@ containing a value of this type.
         public static final int kakaotalk_icon=0x7f02002a;
         public static final int login_background=0x7f02002b;
         public static final int login_background2=0x7f02002c;
-        public static final int powered_by_google_dark=0x7f02002d;
-        public static final int powered_by_google_light=0x7f02002e;
-        public static final int template_icon=0x7f02002f;
-        public static final int usermgmt_sample_icon=0x7f020030;
-        public static final int usermgmt_sample_login_background=0x7f020031;
+        public static final int noti_icon=0x7f02002d;
+        public static final int powered_by_google_dark=0x7f02002e;
+        public static final int powered_by_google_light=0x7f02002f;
+        public static final int template_icon=0x7f020030;
+        public static final int usermgmt_sample_icon=0x7f020031;
+        public static final int usermgmt_sample_login_background=0x7f020032;
     }
     public static final class id {
-        public static final int Des_spinner=0x7f07001f;
-        public static final int Home_spinner=0x7f07001d;
+        public static final int Des_spinner=0x7f070020;
+        public static final int Home_spinner=0x7f07001e;
+        public static final int activity_title=0x7f070019;
         public static final int book_now=0x7f070010;
         public static final int bt_applyFragment=0x7f070016;
         public static final int bt_listFragment=0x7f070015;
         public static final int bt_mypageFragment=0x7f070017;
-        public static final int bt_ok=0x7f070019;
+        public static final int bt_ok=0x7f07001a;
         public static final int bt_settingFragment=0x7f070018;
-        public static final int buttonSignup=0x7f070032;
+        public static final int buttonSignup=0x7f070033;
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
-        public static final int car_number=0x7f070028;
+        public static final int car_number=0x7f070029;
         public static final int classic=0x7f070011;
-        public static final int com_kakao_login=0x7f07002a;
-        public static final int com_kakao_profile_image=0x7f07002b;
-        public static final int com_kakao_profile_nickname=0x7f07002d;
-        public static final int com_kakao_profile_userId=0x7f07002e;
-        public static final int extra_user_property=0x7f070031;
+        public static final int com_kakao_login=0x7f07002b;
+        public static final int com_kakao_profile_image=0x7f07002c;
+        public static final int com_kakao_profile_nickname=0x7f07002e;
+        public static final int com_kakao_profile_userId=0x7f07002f;
+        public static final int extra_user_property=0x7f070032;
         public static final int grayscale=0x7f070012;
-        public static final int have_car=0x7f070026;
+        public static final int have_car=0x7f070027;
         public static final int holo_dark=0x7f070005;
         public static final int holo_light=0x7f070006;
         public static final int hybrid=0x7f070004;
-        public static final int kakao_login_activity_progress_bar=0x7f070029;
-        public static final int linearLayout1=0x7f070030;
+        public static final int kakao_login_activity_progress_bar=0x7f07002a;
+        public static final int linearLayout1=0x7f070031;
         public static final int ll_fragment=0x7f070014;
         public static final int match_parent=0x7f07000c;
         public static final int monochrome=0x7f070013;
-        public static final int name=0x7f070023;
+        public static final int name=0x7f070024;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
-        public static final int phone=0x7f070025;
-        public static final int pickTime=0x7f070021;
+        public static final int phone=0x7f070026;
+        public static final int pickTime=0x7f070022;
         public static final int production=0x7f070007;
-        public static final int profile_edit=0x7f07002c;
-        public static final int radioGroup1=0x7f070027;
-        public static final int ride_spinner=0x7f07001b;
+        public static final int profile_edit=0x7f07002d;
+        public static final int radioGroup1=0x7f070028;
+        public static final int ride_spinner=0x7f07001c;
         public static final int sandbox=0x7f070008;
         public static final int satellite=0x7f070002;
         public static final int selectionDetails=0x7f07000b;
         public static final int strict_sandbox=0x7f070009;
-        public static final int student_number=0x7f070024;
+        public static final int student_number=0x7f070025;
         public static final int terrain=0x7f070003;
-        public static final int textView1=0x7f07001a;
-        public static final int textView2=0x7f07001e;
-        public static final int textView3=0x7f07001c;
-        public static final int textview=0x7f07002f;
-        public static final int timeDisplay=0x7f070022;
-        public static final int timeshow=0x7f070020;
+        public static final int textView1=0x7f07001b;
+        public static final int textView2=0x7f07001f;
+        public static final int textView3=0x7f07001d;
+        public static final int textview=0x7f070030;
+        public static final int timeDisplay=0x7f070023;
+        public static final int timeshow=0x7f070021;
         public static final int wrap_content=0x7f07000d;
     }
     public static final class integer {
@@ -494,24 +498,25 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int apply=0x7f030001;
-        public static final int extra_user_property=0x7f030002;
-        public static final int join=0x7f030003;
-        public static final int kakao_internal_login_activity=0x7f030004;
-        public static final int kakao_login=0x7f030005;
-        public static final int kakao_login_layout=0x7f030006;
-        public static final int kakao_profile_layout=0x7f030007;
-        public static final int list=0x7f030008;
-        public static final int mypage=0x7f030009;
-        public static final int receive=0x7f03000a;
-        public static final int signup=0x7f03000b;
-        public static final int threefragment=0x7f03000c;
+        public static final int activity_title=0x7f030001;
+        public static final int apply=0x7f030002;
+        public static final int extra_user_property=0x7f030003;
+        public static final int join=0x7f030004;
+        public static final int kakao_internal_login_activity=0x7f030005;
+        public static final int kakao_login=0x7f030006;
+        public static final int kakao_login_layout=0x7f030007;
+        public static final int kakao_profile_layout=0x7f030008;
+        public static final int list=0x7f030009;
+        public static final int mypage=0x7f03000a;
+        public static final int receive=0x7f03000b;
+        public static final int signup=0x7f03000c;
+        public static final int threefragment=0x7f03000d;
     }
     public static final class string {
         public static final int accept=0x7f050002;
         public static final int app_name=0x7f050034;
-        public static final int car_number=0x7f05003e;
-        public static final int car_number_hint=0x7f05003f;
+        public static final int car_number=0x7f05003f;
+        public static final int car_number_hint=0x7f050040;
         public static final int com_kakao_account_cancel=0x7f050030;
         /**  for kakaolink 
  for kakaolink 
@@ -636,18 +641,24 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f050005;
         public static final int create_calendar_title=0x7f050004;
         public static final int decline=0x7f050003;
-        public static final int haver_car=0x7f05003d;
+        public static final int gcm_project_number=0x7f050035;
+        public static final int haver_car=0x7f05003e;
         public static final int kakao_app_key=0x7f050033;
-        public static final int me_button=0x7f050036;
-        public static final int name=0x7f050039;
-        public static final int name_hint=0x7f05003a;
-        public static final int phone=0x7f05003c;
-        public static final int signerror=0x7f050038;
-        public static final int signup_button=0x7f050035;
+        public static final int me_button=0x7f050037;
+        public static final int name=0x7f05003a;
+        public static final int name_hint=0x7f05003b;
+        /**  푸시용 내용 
+ 푸시용 내용 
+         */
+        public static final int notification_title=0x7f050041;
+        public static final int phone=0x7f05003d;
+        public static final int signerror=0x7f050039;
+        public static final int signup_button=0x7f050036;
         public static final int store_picture_message=0x7f050001;
         public static final int store_picture_title=0x7f050000;
-        public static final int studnet_number=0x7f05003b;
-        public static final int update_profile_button=0x7f050037;
+        public static final int studnet_number=0x7f05003c;
+        public static final int tokens=0x7f050042;
+        public static final int update_profile_button=0x7f050038;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

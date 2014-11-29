@@ -7,16 +7,30 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="18" />
+    
+    <!-- GCM connects to Google Services. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
+    <permission android:name="com.kakao.sample.usermgmt.permission.C2D_MESSAGE" 
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.kakao.sample.usermgmt.permission.C2D_MESSAGE"/>
+	<!-- This app has permission to register and receive data message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    
+    
     <application
         android:label="@string/app_name"
         android:icon="@drawable/usermgmt_sample_icon"
         android:theme="@android:style/Theme.NoTitleBar"
         android:name="com.kakao.template.loginbase.GlobalApplication">
+    <!-- Required for applications which use Google Play Services. -->
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
         <activity
-            android:name="com.kakao.sample.usermgmt.UserMgmtLoginActivity"
+            android:name=".UserMgmtLoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +53,21 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        
+		 <receiver android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.kakao.sample.usermgmt"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService"/>
 
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
+
+        <meta-data android:name="com.kakao.sdk.GcmProjectId" android:value="@string/gcm_project_number"/>
+        
     </application>
-
+    
 </manifest>

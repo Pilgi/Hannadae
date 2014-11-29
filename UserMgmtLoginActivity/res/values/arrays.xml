@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="ride">
+        
+        <item>Taxi</item>
+        <item>Car-pool</item>
+    </string-array>
+    
+    <string-array name="Des">
+        <item>양덕</item>
+        <item>환호동</item>
+        <item>북부 해수욕장</item>
+        <item>육거리</item>
+        <item>흥해</item>
+        <item>시외 버스 터미널</item>
+    </string-array>
+    
+    <string-array name="Home">
+        <item>양덕</item>
+        <item>환호동</item>
+        <item>북부 해수욕장</item>
+        <item>육거리</item>
+        <item>흥해</item>
+        <item>시외 버스 터미널</item>
+    </string-array>
+
+</resources>

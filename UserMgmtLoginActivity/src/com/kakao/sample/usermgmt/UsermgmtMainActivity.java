@@ -18,35 +18,52 @@
 package com.kakao.sample.usermgmt;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.UUID;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.kakao.APIErrorResult;
 import com.kakao.LogoutResponseCallback;
 import com.kakao.MeResponseCallback;
+import com.kakao.PushMessageBuilder;
+import com.kakao.PushRegisterHttpResponseHandler;
+import com.kakao.PushSendHttpResponseHandler;
+import com.kakao.PushService;
+import com.kakao.PushToken;
+import com.kakao.Session;
 import com.kakao.UnlinkResponseCallback;
 import com.kakao.UpdateProfileResponseCallback;
 import com.kakao.UserManagement;
 import com.kakao.UserProfile;
 import com.kakao.helper.Logger;
+import com.kakao.helper.SharedPreferencesCache;
+import com.kakao.helper.Utility;
 import com.kakao.widget.ProfileLayout;
+import com.kakao.widget.PushActivity;
 
 /**
  * 가입된 사용자가 보게되는 메인 페이지로 사용자 정보 불러오기/update, 로그아웃, 탈퇴 기능을 테스트 한다.
@@ -55,7 +72,14 @@ public class UsermgmtMainActivity extends FragmentActivity implements OnClickLis
 	
     private UserProfile userProfile;
     private ExtraUserPropertyLayout extraUserPropertyLayout;
+    private static final String GCM_PROJECT_ID_KEY = "com.kakao.sdk.GcmProjectId";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    protected static final String PROPERTY_DEVICE_ID = "device_id";
 
+    private GoogleCloudMessaging gcm;
+    private String regId;
+    private int appVer;
+    protected String deviceUUID;
 	final String TAG = "MainActivity";
 
 	int mCurrentFragmentIndex;
@@ -83,22 +107,35 @@ public class UsermgmtMainActivity extends FragmentActivity implements OnClickLis
 		bt_listFragment.setOnClickListener(this);
 
 		mCurrentFragmentIndex = FRAGMENT_APPLY;
+		//create 할때 토큰 등록.
 		fragmentReplace(mCurrentFragmentIndex);
+
 		requestMe();
+
+        if (checkPlayServices()) {
+            gcm = GoogleCloudMessaging.getInstance(this);
+            regId = PushToken.getRegistrationId(this);
+            appVer = Utility.getAppVersion(this);
+            deviceUUID = getDeviceUUID();
+            if (regId.isEmpty()) {
+                registerPushToken(null);
+            }
+        } else {
+            Logger.getInstance().w("No valid Google Play Services APK found.");
+        }
     }
     private void requestMe() {
         UserManagement.requestMe(new MeResponseCallback() {
             @Override
             protected void onSuccess(final UserProfile userProfile) {
                 // 성공.
-                Log.w(TAG,  "성공");
+                Log.w(TAG,  "성공____!!!!!");
                 if(userProfile!=null)
                 	Log.w(TAG,userProfile.toString());
-                new JoinPhp().execute(userProfile);
-             			
-               //Login 된 유저의 data를 server에 저장.
-               String test = userProfile.getNickname();
-               Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+               //Token register.
+                registerToken();
+                //Login 된 유저의 data를 server에 저장.
+                new JoinPhp().execute(userProfile); 
             }
 
             @Override
@@ -119,6 +156,28 @@ public class UsermgmtMainActivity extends FragmentActivity implements OnClickLis
                 Toast.makeText(getApplicationContext(), "failed to update profile. msg = " + errorResult, Toast.LENGTH_LONG).show();
             }
         });
+    }
+    protected void registerToken()
+    {
+        registerPushToken(new PushRegisterHttpResponseHandler() {
+            @Override
+            protected void onHttpSuccess(final Integer expiredAt) {
+                super.onHttpSuccess(expiredAt);
+                Toast.makeText(getApplicationContext(), "succeeded to register push token", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            protected void onHttpSessionClosedFailure(APIErrorResult errorResult) {
+                redirectLoginActivity();
+            }
+
+            @Override
+            protected void onHttpFailure(APIErrorResult errorResult) {
+                super.onHttpFailure(errorResult);
+                Toast.makeText(getApplicationContext(), errorResult.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     @Override
@@ -285,30 +344,130 @@ public class UsermgmtMainActivity extends FragmentActivity implements OnClickLis
 			fragmentReplace(mCurrentFragmentIndex);
 			break;
 		case R.id.bt_applyFragment:
-			mCurrentFragmentIndex = FRAGMENT_APPLY;
-			fragmentReplace(mCurrentFragmentIndex);
+			registerToken();
+			//mCurrentFragmentIndex = FRAGMENT_APPLY;
+			//fragmentReplace(mCurrentFragmentIndex);
 			break;
 		case R.id.bt_settingFragment:
-			mCurrentFragmentIndex = FRAGMENT_SETTING;
-			fragmentReplace(mCurrentFragmentIndex);
+			sendPushMessageToMe();
+			//mCurrentFragmentIndex = FRAGMENT_SETTING;
+			//fragmentReplace(mCurrentFragmentIndex);
 			break;
 
 		}
 
 	}
-	private class JoinPhp extends AsyncTask<UserProfile, Void, Void>
-	{
 
-		@Override
-		protected Void doInBackground(UserProfile... params) {
-			// TODO Auto-generated method stub
-			UserProfile userProfile = params[0];
-			String sResult = "Error";
-    		String urlForm ="http://gh.handong.edu/testphp/join.php?";
-    		urlForm += "id="+userProfile.getId()+"&";
-    		urlForm += "nickname="+URLEncoder.encode(userProfile.getNickname())+"&";
-    		urlForm += "thumbnail_image="+userProfile.getThumbnailImagePath()+"&";
-    		urlForm += "phone="+URLEncoder.encode(userProfile.getProperty("phone"))+"&";
+    private boolean checkPlayServices() {
+    	Log.w("error","choeck play service");
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Logger.getInstance().w("This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * kakao_strings.xml에 등록한 gcm_project_number를 이용하여 푸시 토큰을 받고, 로그인 후 알수 있는 사용자 id와 해당 기기의 유일한 device id를 이용하여 푸시 토큰을 등록한다.
+     * @param registerHttpResponseHandler 푸시 토큰 등록에 대한 콜백 처리를 직접하고 싶은 경우 handler를 넘겨준다. 넘겨주지 않는 경우는 기본 handler가 동작한다.
+     */
+    protected void registerPushToken(final PushRegisterHttpResponseHandler registerHttpResponseHandler) {
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(UsermgmtMainActivity.this);
+                    }
+                    String gcmProjectNumber = Utility.getMetadata(UsermgmtMainActivity.this, GCM_PROJECT_ID_KEY);
+                    regId = gcm.register(gcmProjectNumber);
+                    return Boolean.TRUE;
+                } catch (IOException ex) {
+                    Logger.getInstance().w("Error :" + ex.getMessage());
+                    return Boolean.FALSE;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(final Boolean registerationResult){
+                if(registerationResult) {
+                    if(registerHttpResponseHandler != null) {
+                        registerHttpResponseHandler.setRegId(regId, appVer);
+                        PushService.registerPushToken(registerHttpResponseHandler, regId, deviceUUID);
+                    } else {
+                        PushService.registerPushToken(new PushRegisterHttpResponseHandler(regId, appVer){
+
+                            @Override
+                            protected void onHttpSessionClosedFailure(APIErrorResult errorResult) {
+                                redirectLoginActivity();
+                            }
+
+                            @Override
+                            protected void onHttpFailure(APIErrorResult errorResult) {
+                                super.onHttpFailure(errorResult);
+                                Toast.makeText(getApplicationContext(), errorResult.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }, regId, deviceUUID);
+                    }
+                }
+            }
+
+        }.execute(null, null, null);
+    }
+    // 아래는 SharedPreferencesCache를 사용하는 예제 입니다.
+
+    protected String getDeviceUUID() {
+        if(deviceUUID != null)
+            return deviceUUID;
+
+        final SharedPreferencesCache cache = Session.getAppCache();
+        final String id = cache.getString(PROPERTY_DEVICE_ID);
+
+        if (id != null) {
+            deviceUUID = id;
+            return deviceUUID;
+        } else {
+            UUID uuid = null;
+            final String androidId = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
+            try {
+                if (!"9774d56d682e549c".equals(androidId)) {
+                    uuid = UUID.nameUUIDFromBytes(androidId.getBytes("utf8"));
+                } else {
+                    final String deviceId = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+                    uuid = deviceId != null ? UUID.nameUUIDFromBytes(deviceId.getBytes("utf8")) : UUID.randomUUID();
+                }
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+
+            Bundle bundle = new Bundle();
+            bundle.putString(PROPERTY_DEVICE_ID, uuid.toString());
+            cache.save(bundle);
+
+            deviceUUID = uuid.toString();
+            return deviceUUID;
+        }
+    }
+		//mainthread가 아닌 곳에서 통신하기 위해서.
+		private class JoinPhp extends AsyncTask<UserProfile, Void, Void>
+		{
+	
+			@Override
+			protected Void doInBackground(UserProfile... params) {
+				// TODO Auto-generated method stub
+				UserProfile userProfile = params[0];
+				String sResult = "";
+	    		String urlForm ="http://gh.handong.edu/testphp/join.php?";
+	    		urlForm += "id="+userProfile.getId()+"&";
+	    		urlForm += "nickname="+URLEncoder.encode(userProfile.getNickname())+"&";
+	    		urlForm += "thumbnail_image="+userProfile.getThumbnailImagePath()+"&";
+	    		urlForm += "phone="+URLEncoder.encode(userProfile.getProperty("phone"))+"&";
     		urlForm += "name="+URLEncoder.encode(userProfile.getProperty("name"))+"&";
     		urlForm += "student_number="+URLEncoder.encode(userProfile.getProperty("student_number"))+"&";
     		urlForm += "car_number="+URLEncoder.encode(userProfile.getProperty("car_number"))+"&";
@@ -344,4 +503,29 @@ public class UsermgmtMainActivity extends FragmentActivity implements OnClickLis
 		}
 		
 	}
+
+	    private void sendPushMessageToMe() {
+	        final String testMessage = new PushMessageBuilder("{\"content\":\"테스트 메시지\", \"friend_id\":1, \"noti\":\"test\"}").toString();
+	        if (testMessage == null) {
+	            Logger.getInstance().w("failed to create push Message");
+	        } else {
+	            PushService.sendPushMessage(new PushSendHttpResponseHandler() {
+	                @Override
+	                protected void onHttpSuccess(Void resultObj) {
+	                    Toast.makeText(getApplicationContext(), "succeeded to send message", Toast.LENGTH_SHORT).show();
+	                }
+
+	                @Override
+	                protected void onHttpSessionClosedFailure(APIErrorResult errorResult) {
+	                    redirectLoginActivity();
+	                }
+
+	                @Override
+	                protected void onHttpFailure(APIErrorResult errorResult) {
+	                    Toast.makeText(getApplicationContext(), errorResult.toString(), Toast.LENGTH_LONG).show();
+	                }
+	            }, testMessage, deviceUUID);
+	        }
+	    }
+
 }

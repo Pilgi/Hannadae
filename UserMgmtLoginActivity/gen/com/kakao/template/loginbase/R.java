@@ -61,8 +61,8 @@ public final class R {
 		public static final int common_signin_btn_light_text_disabled = 0x7f060006;
 		public static final int common_signin_btn_light_text_focused = 0x7f060007;
 		public static final int common_signin_btn_light_text_pressed = 0x7f060005;
-		public static final int common_signin_btn_text_dark = 0x7f06001d;
-		public static final int common_signin_btn_text_light = 0x7f06001e;
+		public static final int common_signin_btn_text_dark = 0x7f06001f;
+		public static final int common_signin_btn_text_light = 0x7f060020;
 		public static final int wallet_bright_foreground_disabled_holo_light = 0x7f06000f;
 		public static final int wallet_bright_foreground_holo_dark = 0x7f06000a;
 		public static final int wallet_bright_foreground_holo_light = 0x7f060010;
@@ -76,8 +76,8 @@ public final class R {
 		public static final int wallet_hint_foreground_holo_light = 0x7f060011;
 		public static final int wallet_holo_blue_light = 0x7f060015;
 		public static final int wallet_link_text_light = 0x7f060016;
-		public static final int wallet_primary_text_holo_light = 0x7f06001f;
-		public static final int wallet_secondary_text_holo_dark = 0x7f060020;
+		public static final int wallet_primary_text_holo_light = 0x7f060021;
+		public static final int wallet_secondary_text_holo_dark = 0x7f060022;
 	}
 	public static final class dimen {
 		public static final int com_kakao_padding = 0x7f090002;
@@ -128,9 +128,9 @@ public final class R {
 		public static final int kakaoaccount_icon = 0x7f020028;
 		public static final int kakaostory_icon = 0x7f020029;
 		public static final int kakaotalk_icon = 0x7f02002a;
-		public static final int powered_by_google_dark = 0x7f02002d;
-		public static final int powered_by_google_light = 0x7f02002e;
-		public static final int template_icon = 0x7f02002f;
+		public static final int powered_by_google_dark = 0x7f02002e;
+		public static final int powered_by_google_light = 0x7f02002f;
+		public static final int template_icon = 0x7f020030;
 	}
 	public static final class id {
 		public static final int book_now = 0x7f070010;
@@ -138,21 +138,21 @@ public final class R {
 		public static final int buy_now = 0x7f07000f;
 		public static final int buy_with_google = 0x7f07000e;
 		public static final int classic = 0x7f070011;
-		public static final int com_kakao_login = 0x7f07002a;
-		public static final int com_kakao_profile_image = 0x7f07002b;
-		public static final int com_kakao_profile_nickname = 0x7f07002d;
-		public static final int com_kakao_profile_userId = 0x7f07002e;
+		public static final int com_kakao_login = 0x7f07002b;
+		public static final int com_kakao_profile_image = 0x7f07002c;
+		public static final int com_kakao_profile_nickname = 0x7f07002e;
+		public static final int com_kakao_profile_userId = 0x7f07002f;
 		public static final int grayscale = 0x7f070012;
 		public static final int holo_dark = 0x7f070005;
 		public static final int holo_light = 0x7f070006;
 		public static final int hybrid = 0x7f070004;
-		public static final int kakao_login_activity_progress_bar = 0x7f070029;
+		public static final int kakao_login_activity_progress_bar = 0x7f07002a;
 		public static final int match_parent = 0x7f07000c;
 		public static final int monochrome = 0x7f070013;
 		public static final int none = 0x7f070000;
 		public static final int normal = 0x7f070001;
 		public static final int production = 0x7f070007;
-		public static final int profile_edit = 0x7f07002c;
+		public static final int profile_edit = 0x7f07002d;
 		public static final int sandbox = 0x7f070008;
 		public static final int satellite = 0x7f070002;
 		public static final int selectionDetails = 0x7f07000b;
@@ -164,10 +164,10 @@ public final class R {
 		public static final int google_play_services_version = 0x7f080000;
 	}
 	public static final class layout {
-		public static final int kakao_internal_login_activity = 0x7f030004;
-		public static final int kakao_login = 0x7f030005;
-		public static final int kakao_login_layout = 0x7f030006;
-		public static final int kakao_profile_layout = 0x7f030007;
+		public static final int kakao_internal_login_activity = 0x7f030005;
+		public static final int kakao_login = 0x7f030006;
+		public static final int kakao_login_layout = 0x7f030007;
+		public static final int kakao_profile_layout = 0x7f030008;
 	}
 	public static final class string {
 		public static final int accept = 0x7f050002;

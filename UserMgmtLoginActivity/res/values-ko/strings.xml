@@ -19,5 +19,10 @@
         <item>없음</item>
         <item>있음</item>
     </string-array>
+    
+    <!-- 푸시용 내용 -->    
+    <string name="notification_title">한동 나좀 데려가</string>
+    <string name="tokens">푸시토큰 조회</string>
+    
 
 </resources>
